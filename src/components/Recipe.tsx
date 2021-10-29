@@ -13,11 +13,11 @@ type Props = {
 };
 
 const weekdayTranslations: { [weekday in typeof weekdays[number]]: string } = {
-    monday: "måndag",
-    tuesday: "tisdag",
-    wednesday: "onsdag",
-    thursday: "torsdag",
-    friday: "fredag",
+    monday: "Måndag",
+    tuesday: "Tisdag",
+    wednesday: "Onsdag",
+    thursday: "Torsdag",
+    friday: "Fredag",
 };
 
 export const Recipe: FunctionComponent<Props> = ({
@@ -44,6 +44,7 @@ const Container = styled.div<{ backgroundColor: string; color: string }>`
         "links"
         "tags";
 
+    grid-template-rows: min-content 1fr min-content min-content;
     padding: 30px;
     color: ${({ color }) => color};
     background-color: ${({ backgroundColor }) => backgroundColor};
@@ -56,6 +57,7 @@ const DayOfTheWeek = styled.small`
     align-self: end;
     font-weight: normal;
     font-size: 2vmax;
+    text-transform: lowercase;
 `;
 
 const Title = styled.h2`
