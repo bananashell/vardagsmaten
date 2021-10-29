@@ -8,6 +8,8 @@ import { TagList } from "./TagList";
 type Props = {
     recipe: RecipeType;
     weekday: typeof weekdays[number];
+    backgroundColor: string;
+    color: string;
 };
 
 const weekdayTranslations: { [weekday in typeof weekdays[number]]: string } = {
@@ -18,9 +20,14 @@ const weekdayTranslations: { [weekday in typeof weekdays[number]]: string } = {
     friday: "fredag",
 };
 
-export const Recipe: FunctionComponent<Props> = ({ recipe, weekday }) => {
+export const Recipe: FunctionComponent<Props> = ({
+    recipe,
+    weekday,
+    backgroundColor,
+    color,
+}) => {
     return (
-        <Container>
+        <Container backgroundColor={backgroundColor} color={color}>
             <DayOfTheWeek>{weekdayTranslations[weekday]}</DayOfTheWeek>
             <Title>{recipe.title}</Title>
             <Links links={recipe.recipe_links} />
@@ -29,7 +36,7 @@ export const Recipe: FunctionComponent<Props> = ({ recipe, weekday }) => {
     );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ backgroundColor: string; color: string }>`
     display: grid;
     grid-template-areas:
         "dayOfTheWeek"
@@ -38,7 +45,8 @@ const Container = styled.div`
         "tags";
 
     padding: 30px;
-    color: white;
+    color: ${({ color }) => color};
+    background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const DayOfTheWeek = styled.small`
@@ -48,7 +56,6 @@ const DayOfTheWeek = styled.small`
     align-self: end;
     font-weight: normal;
     font-size: 2vmax;
-    color: rgba(255, 255, 255, 0.7);
 `;
 
 const Title = styled.h2`
