@@ -6,6 +6,7 @@ import { Recipe as RecipeType } from "models/recipie";
 import { weekdays } from "models/weekdays";
 import { Recipe } from "components/Recipe";
 import { Info } from "components/Info";
+import { mediaQueries } from "styles/theme";
 
 export const RecipeList: React.FunctionComponent = () => {
     const [recipes, setRecipes] = useState<RecipeType[]>();
@@ -68,11 +69,22 @@ const colorMappings = (
 
 const List = styled.div`
     display: grid;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    min-width: 100vw;
+
     grid-template-areas:
-        "monday tuesday wednesday"
-        "thursday friday info";
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+        "monday"
+        "tuesday"
+        "wednesday"
+        "thursday"
+        "friday"
+        "info";
+
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr;
+    ${mediaQueries.tablet} {
+        grid-template-areas:
+            "monday tuesday wednesday"
+            "thursday friday info";
+    }
 `;

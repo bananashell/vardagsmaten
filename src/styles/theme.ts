@@ -15,6 +15,24 @@ const generateColors = ({ baseColor }: { baseColor: string }) => {
     };
 };
 
+const breakpoints = {
+    xsmall: 0,
+    small: 320,
+    medium: 720,
+    large: 1024,
+    xlarge: 1200,
+};
+
+const customMediaQuery = (minWidth: number) =>
+    `@media (min-width: ${minWidth}px)`;
+
+export const mediaQueries = {
+    custom: customMediaQuery,
+    phone: customMediaQuery(breakpoints.small),
+    tablet: customMediaQuery(breakpoints.medium),
+    desktop: customMediaQuery(breakpoints.large),
+};
+
 export const theme = {
     colors: {
         amber: generateColors({ baseColor: "#ffbe0b" }),
