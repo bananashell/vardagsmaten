@@ -10,6 +10,8 @@ import {
     addDoc,
     documentId,
     QueryConstraint,
+    QueryDocumentSnapshot,
+    DocumentData,
 } from "firebase/firestore";
 import { Recipe } from "../models/recipie";
 import { AutoId } from "./util";

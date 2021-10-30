@@ -1,3 +1,4 @@
+import { AutoId } from "firebase/util";
 import { useState } from "react";
 import { addRecipe } from "../firebase/clientApp";
 import { Recipe } from "../models/recipie";
@@ -8,6 +9,7 @@ export const AddRecipe = () => {
 
     const handleClick = () => {
         const recipe: Recipe = {
+            id: AutoId.newId(),
             title: title,
             tags: tags.split(","),
             recipe_links: [],
