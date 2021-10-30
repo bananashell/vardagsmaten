@@ -45,6 +45,13 @@ export async function getRecipies({
     return recipes;
 }
 
+export async function allRecipies(): Promise<Recipe[]> {
+    const recipesCol = collection(db, "recipes");
+    const recipeList = await getDocs(recipesCol);
+
+    return recipeList.docs.map(mapDocumentToRecipe);
+}
+
 async function getRandomRecipe({
     excludeIds,
 }: {
@@ -61,11 +68,13 @@ async function getRandomRecipe({
 
     const q = query(recipesCol, ...queryConstraints, limit(1));
     const recipeList = await getDocs(q);
-    return recipeList.docs.map((x) => {
-        return { id: x.id, ...x.data() } as Recipe;
-    });
+    return recipeList.docs.map(mapDocumentToRecipe);
 }
 
 export async function addRecipe({ recipe }: { recipe: Recipe }) {
     await addDoc(collection(db, "recipes"), recipe);
 }
+
+const mapDocumentToRecipe = (x: QueryDocumentSnapshot<DocumentData>) => {
+    return { id: x.id, ...x.data() } as Recipe;
+};

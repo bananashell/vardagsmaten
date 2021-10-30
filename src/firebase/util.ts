@@ -1,3 +1,5 @@
+import { randomInt } from "util/random";
+
 export class AutoId {
     static newId(): string {
         // Alphanumeric characters
@@ -20,12 +22,6 @@ export class AutoId {
 
         return autoId;
     }
-}
-
-function randomInt({ min, max }: { min?: number; max: number }) {
-    min ??= 0;
-
-    return Math.floor(Math.random() * (max - min) + min);
 }
 
 export function uniquesByKey<T>(array: Array<T>, byKey: keyof T) {

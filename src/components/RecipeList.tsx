@@ -1,35 +1,49 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import styled, { css, DefaultTheme, useTheme } from "styled-components";
-import { getRecipies } from "firebase/__mocks__/clientApp";
-import { Recipe as RecipeType } from "models/recipie";
+import { useEffect } from "react";
+import styled, { DefaultTheme, useTheme } from "styled-components";
 import { weekdays } from "models/weekdays";
 import { Recipe } from "components/Recipe";
 import { Info } from "components/Info";
 import { mediaQueries } from "styles/theme";
+import { useStore } from "store/useStore";
 
 export const RecipeList: React.FunctionComponent = () => {
-    const [recipes, setRecipes] = useState<RecipeType[]>();
     const theme = useTheme();
+    const colors = colorMappings(theme);
+    const { initialize, weekdays, allRecipes } = useStore();
 
     useEffect(() => {
-        (async () => {
-            const data = await getRecipies({ count: 5 });
-            setRecipes(data);
-        })();
-    }, []);
-    const colors = colorMappings(theme);
+        initialize();
+    }, [initialize]);
+
     return (
         <List>
-            {recipes?.map((r, i) => (
-                <Recipe
-                    key={i}
-                    recipe={r}
-                    weekday={weekdays[i]}
-                    backgroundColor={colors[weekdays[i]].backgroundColor}
-                    color={colors[weekdays[i]].color}
-                />
-            ))}
+            <Recipe
+                weekday={"monday"}
+                backgroundColor={colors["monday"].backgroundColor}
+                color={colors["monday"].color}
+            />
+            <Recipe
+                weekday={"tuesday"}
+                backgroundColor={colors["tuesday"].backgroundColor}
+                color={colors["tuesday"].color}
+            />
+            <Recipe
+                weekday={"wednesday"}
+                backgroundColor={colors["wednesday"].backgroundColor}
+                color={colors["wednesday"].color}
+            />
+            <Recipe
+                weekday={"thursday"}
+                backgroundColor={colors["thursday"].backgroundColor}
+                color={colors["thursday"].color}
+            />
+            <Recipe
+                weekday={"friday"}
+                backgroundColor={colors["friday"].backgroundColor}
+                color={colors["friday"].color}
+            />
+
             <Info />
         </List>
     );

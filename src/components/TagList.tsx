@@ -8,16 +8,18 @@ export const TagList: FunctionComponent<{ tags: string[] }> = ({ tags }) => {
 
     return (
         <Tags>
-            {tags.map((t, i) => (
-                <Tag key={i}>{t}</Tag>
-            ))}
+            {tags
+                .filter((x) => x)
+                .map((t, i) => (
+                    <Tag key={i}>{t}</Tag>
+                ))}
         </Tags>
     );
 };
 
 const Tags = styled.div`
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-self: end;
     align-self: end;
 `;
@@ -29,4 +31,5 @@ const Tag = styled.i`
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
     padding: 5px 7px;
+    font-size: 1vmax;
 `;

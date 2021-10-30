@@ -8,6 +8,10 @@ export async function getRecipies({
     return mockData.slice(0, count);
 }
 
+export async function allRecipies(): Promise<Recipe[]> {
+    return mockData;
+}
+
 export async function addRecipe({ recipe }: { recipe: Recipe }) {}
 
 const mockData: Recipe[] = [
@@ -54,5 +58,41 @@ const mockData: Recipe[] = [
         ],
         title: "Fishtacos",
         tags: ["fisk"],
+    },
+    {
+        id: "6",
+        recipe_links: [
+            "https://www.koket.se/mitt-kok/jennie-wallden/klassisk-kottfarssas-med-spaghetti",
+            "https://www.arla.se/recept/kottfarssas/",
+            "https://www.tasteline.se/recept/kottfarssas/",
+        ],
+        title: "Hamburgare",
+        tags: ["snabbt", "barnvänligt"],
+    },
+    {
+        id: "7",
+        recipe_links: [],
+        title: "Pyttipanna",
+        tags: ["snabbt", "barnvänligt"],
+    },
+    {
+        id: "8",
+        recipe_links: [
+            "https://www.koket.se/mitt-kok/jennie-wallden/klassisk-kottfarssas-med-spaghetti",
+            "https://www.arla.se/recept/kottfarssas/",
+            "https://www.tasteline.se/recept/kottfarssas/",
+        ],
+        title: "Köttbullar med potatismos och gräddsås",
+        tags: ["snabbt", "barnvänligt"],
+    },
+    {
+        id: "9",
+        recipe_links: [
+            "https://www.koket.se/mitt-kok/jennie-wallden/klassisk-kottfarssas-med-spaghetti",
+            "https://www.arla.se/recept/kottfarssas/",
+            "https://www.tasteline.se/recept/kottfarssas/",
+        ],
+        title: "Pizza",
+        tags: ["snabbt", "barnvänligt"],
     },
 ];

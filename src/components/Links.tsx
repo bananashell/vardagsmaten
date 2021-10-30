@@ -11,11 +11,13 @@ export const Links: FunctionComponent<Props> = ({ links }) => {
 
     return (
         <LinkList>
-            {links.map((l, i) => (
-                <li key={i}>
-                    <Link href={l}>{extractHostname(l)}</Link>
-                </li>
-            ))}
+            {links
+                .filter((x) => x)
+                .map((l, i) => (
+                    <li key={i}>
+                        <Link href={l}>{extractHostname(l)}</Link>
+                    </li>
+                ))}
         </LinkList>
     );
 };
@@ -29,6 +31,10 @@ const LinkList = styled.ul`
 `;
 
 const extractHostname = (url: string) => {
-    const u = new URL(url);
-    return `${u.hostname}`;
+    try {
+        const u = new URL(url);
+        return `${u.hostname}`;
+    } catch {
+        return undefined;
+    }
 };
