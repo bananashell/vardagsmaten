@@ -6,6 +6,7 @@ import { Links } from "./Links";
 import { TagList } from "./TagList";
 import ReloadIcon from "public/reload-svgrepo-com.svg";
 import Image from "next/image";
+import { imageLoader } from "util/imageLoader";
 
 type Props = {
     weekday: typeof weekdays[number];
@@ -44,6 +45,7 @@ export const Recipe: FunctionComponent<Props> = ({
                                 width={30}
                                 height={30}
                                 objectFit={"fill"}
+                                loader={imageLoader}
                             />
                         </RandomizeButton>
                     </DayOfTheWeekContainer>

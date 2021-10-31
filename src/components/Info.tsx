@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import GithubImg from "public/GitHub-Mark-32px.png";
 import LinkedInImg from "public/LI-In-Bug.png";
+import { imageLoader } from "util/imageLoader";
 
 export const Info: FunctionComponent = () => {
     return (
@@ -19,6 +20,7 @@ export const Info: FunctionComponent = () => {
                             src={GithubImg}
                             layout="responsive"
                             objectFit="contain"
+                            loader={imageLoader}
                         />
                     </a>
                 </Link>
@@ -34,6 +36,7 @@ export const Info: FunctionComponent = () => {
                             src={LinkedInImg}
                             layout="responsive"
                             objectFit="contain"
+                            loader={imageLoader}
                         />
                     </a>
                 </Link>
