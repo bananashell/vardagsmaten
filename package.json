@@ -5,7 +5,7 @@
     "scripts": {
         "ci": "yarn install",
         "dev": "next dev",
-        "build": "next build && yarn export",
+        "build": "next build && next export",
         "start": "next start",
         "lint": "next lint"
     },
