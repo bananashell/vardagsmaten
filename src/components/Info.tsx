@@ -21,6 +21,7 @@ export const Info: FunctionComponent = () => {
                             layout="responsive"
                             objectFit="contain"
                             loader={imageLoader}
+                            unoptimized={true}
                         />
                     </a>
                 </Link>
@@ -37,6 +38,7 @@ export const Info: FunctionComponent = () => {
                             layout="responsive"
                             objectFit="contain"
                             loader={imageLoader}
+                            unoptimized={true}
                         />
                     </a>
                 </Link>
