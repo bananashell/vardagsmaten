@@ -6,15 +6,49 @@ import { Recipe } from "components/Recipe";
 import { Info } from "components/Info";
 import { mediaQueries } from "styles/theme";
 import { useStore } from "store/useStore";
+import { useRouter } from "next/router";
 
-export const RecipeList: React.FunctionComponent = () => {
+type Props = {
+    foodIds?: string[];
+    isReady: boolean;
+};
+
+export const RecipeList: React.FunctionComponent<Props> = ({
+    foodIds,
+    isReady,
+}) => {
     const theme = useTheme();
     const colors = colorMappings(theme);
-    const { initialize, weekdays, allRecipes } = useStore();
+    const router = useRouter();
+
+    const { initialize, isSuccess, applyFoodToWeekdays, foodPerWeekday } =
+        useStore();
 
     useEffect(() => {
-        initialize();
+        initialize({});
     }, [initialize]);
+
+    useEffect(() => {
+        if (!isReady || !isSuccess) {
+            return;
+        }
+        applyFoodToWeekdays({ foodIds: foodIds });
+    }, [foodIds, isReady, isSuccess, applyFoodToWeekdays]);
+
+    useEffect(() => {
+        if (!Object.values(foodPerWeekday).some((x) => x)) {
+            return;
+        }
+
+        router.push(
+            `/?${Object.values(foodPerWeekday)
+                .map((x) => `id=${x?.id || -1}`)
+                .join("&")}`,
+            undefined,
+            { shallow: true }
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [...Object.values(foodPerWeekday)]);
 
     return (
         <List>

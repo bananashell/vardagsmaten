@@ -9,7 +9,11 @@ import { imageLoader } from "util/imageLoader";
 export const Info: FunctionComponent = () => {
     return (
         <Container>
-            <h2>Vardagsmaten</h2>
+            <h2>
+                <Link href={"./"}>
+                    <a>Vardagsmaten</a>
+                </Link>
+            </h2>
 
             <i>Skapat av Joakim Jäderberg </i>
             <div>

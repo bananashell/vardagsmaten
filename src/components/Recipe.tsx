@@ -12,6 +12,7 @@ type Props = {
     weekday: typeof weekdays[number];
     backgroundColor: string;
     color: string;
+    foodId?: string;
 };
 
 const weekdayTranslations: { [weekday in typeof weekdays[number]]: string } = {
@@ -26,13 +27,15 @@ export const Recipe: FunctionComponent<Props> = ({
     weekday,
     backgroundColor,
     color,
+    foodId,
 }) => {
-    const { randomize, weekdays } = useStore();
-    const recipe = weekdays[weekday];
+    const { randomize, foodPerWeekday, isLoading, isSuccess } = useStore();
+    const recipe = foodPerWeekday[weekday];
 
     return (
         <Container backgroundColor={backgroundColor} color={color}>
-            {recipe && (
+            {isLoading && "Loading"}
+            {isSuccess && recipe && (
                 <>
                     <DayOfTheWeekContainer>
                         <DayOfTheWeek>
