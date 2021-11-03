@@ -7,9 +7,28 @@ import LinkedInImg from "public/LI-In-Bug.png";
 import { imageLoader } from "util/imageLoader";
 
 export const Info: FunctionComponent = () => {
+    const canShare = typeof navigator !== "undefined" && "share" in navigator;
+    const handleShare = async () => {
+        try {
+            await navigator.share({
+                title: "Vardagsmaten",
+                url: location.href,
+            });
+        } catch (err) {}
+    };
+
     return (
         <Container>
-            <h2>Vardagsmaten</h2>
+            <h2>
+                <Link href={"./"}>
+                    <a>Vardagsmaten</a>
+                </Link>
+            </h2>
+            {canShare && (
+                <ShareButton href={"javascript:;"} onClick={handleShare}>
+                    Dela menyn
+                </ShareButton>
+            )}
 
             <i>Skapat av Joakim Jäderberg </i>
             <div>
@@ -50,12 +69,13 @@ export const Info: FunctionComponent = () => {
 const Container = styled.div`
     display: grid;
     grid-template-areas:
+        "share"
         "heading"
         "creator"
         "links";
     text-align: right;
     padding: 30px;
-    grid-template-rows: auto min-content min-content;
+    grid-template-rows: auto min-content min-content min-content;
     gap: 1rem;
 
     h2 {
@@ -84,5 +104,27 @@ const Container = styled.div`
             display: inline-block;
             width: 20px;
         }
+    }
+`;
+
+const ShareButton = styled.a`
+    align-self: start;
+    justify-self: end;
+
+    user-select: none;
+
+    color: ${({ theme }) => theme.colors.white};
+
+    background: ${({ theme }) => theme.colors.blue["400"]};
+    padding: 5px 7px;
+    border-radius: 5px;
+    transition: all 200ms;
+
+    &:hover {
+        background: ${({ theme }) => theme.colors.blue["300"]};
+    }
+    &:active {
+        background: ${({ theme }) => theme.colors.blue["300"]};
+        transform: scale(0.95);
     }
 `;

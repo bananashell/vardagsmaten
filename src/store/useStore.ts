@@ -1,66 +1,99 @@
+import create from "zustand";
+import { devtools } from "zustand/middleware";
 import { Recipe } from "models/recipie";
 import { weekdays } from "models/weekdays";
-import create from "zustand";
 import { allRecipies } from "firebase/clientApp";
 import { randomInt } from "util/random";
 
-type State = {
+export type State = {
+    isLoading: boolean;
+    isSuccess: boolean;
     allRecipes: Recipe[];
-    initialize: () => Promise<void>;
+    initialize: ({ forceReload }: { forceReload?: boolean }) => Promise<void>;
+    foodPerWeekday: { [weekday in typeof weekdays[number]]?: Recipe };
+    applyFoodToWeekdays: ({ foodIds }: { foodIds?: string[] }) => void;
     randomize: (weekday: typeof weekdays[number]) => void;
-    weekdays: { [weekday in typeof weekdays[number]]?: Recipe };
 };
 
-export const useStore = create<State>((set, get) => ({
-    allRecipes: [],
-    initialize: async () => {
-        const { allRecipes } = get();
-        if (allRecipes?.length) {
-            console.log("already initialized");
-            return;
-        }
+export const useStore = create<State>(
+    devtools(
+        (set, get) => ({
+            allRecipes: [],
+            isLoading: false,
+            isSuccess: false,
+            initialize: async ({ forceReload }) => {
+                const { isLoading } = get();
+                if (isLoading && !forceReload) {
+                    return;
+                }
 
-        const recipes = await allRecipies();
-        set({ allRecipes: recipes });
+                set({ allRecipes: [], isLoading: true });
 
-        const { randomize } = get();
-        weekdays.map((w) => {
-            randomize(w);
-        });
-    },
-    randomize: (weekday) => {
-        const { weekdays, allRecipes } = get();
+                const recipes = await allRecipies();
 
-        const excludeIds = Object.keys(weekdays)
-            .map((w) => {
-                return weekdays[w as keyof typeof weekdays]?.id;
-            })
-            .filter((x) => x) as string[];
+                set({
+                    allRecipes: recipes || [],
+                    isLoading: false,
+                    isSuccess: true,
+                });
+            },
+            applyFoodToWeekdays: ({ foodIds }: { foodIds?: string[] }) => {
+                foodIds ??= [];
+                const { allRecipes } = get();
 
-        const newState = { ...weekdays };
-        newState[weekday] = randomizeRecipe({ allRecipes, excludeIds });
+                weekdays.map((w, i) => {
+                    const { foodPerWeekday } = get();
+                    const foodId = foodIds?.[i];
+                    let recipe = allRecipes.filter((r) => r.id === foodId)?.[0];
+                    if (!recipe) {
+                        recipe = randomizeRecipe({
+                            allRecipes,
+                            foodPerWeekday: foodPerWeekday,
+                        });
+                    }
+                    foodPerWeekday[w] = recipe;
+                    set({ foodPerWeekday: foodPerWeekday });
+                });
+            },
+            randomize: (weekday) => {
+                const { foodPerWeekday, allRecipes } = get();
 
-        set({ weekdays: newState });
-    },
-    weekdays: {
-        monday: undefined,
-        tuesday: undefined,
-        wednesday: undefined,
-        thursday: undefined,
-        friday: undefined,
-    },
-}));
+                const newState = { ...foodPerWeekday };
+                newState[weekday] = randomizeRecipe({
+                    allRecipes,
+                    foodPerWeekday,
+                });
+
+                set({ foodPerWeekday: newState });
+            },
+            foodPerWeekday: {
+                monday: undefined,
+                tuesday: undefined,
+                wednesday: undefined,
+                thursday: undefined,
+                friday: undefined,
+            },
+        }),
+        { name: "vardagsmaten" }
+    )
+);
 
 const randomizeRecipe = ({
     allRecipes,
-    excludeIds,
+    foodPerWeekday,
 }: {
     allRecipes: Recipe[];
-    excludeIds: string[];
-}) => {
+    foodPerWeekday: State["foodPerWeekday"];
+}): Recipe => {
     if (!allRecipes) {
-        return undefined;
+        return undefined as unknown as Recipe;
     }
+
+    const excludeIds = weekdays
+        .map((w) => {
+            return foodPerWeekday[w as typeof weekdays[number]]?.id;
+        })
+        .filter((x) => x) as string[];
 
     const filteredData = allRecipes.filter((x) =>
         excludeIds ? excludeIds.indexOf(x.id) < 0 : true
