@@ -18,7 +18,7 @@ export const Info: FunctionComponent = () => {
 
     return (
         <article className="flex flex-col items-end justify-end gap-1 p-8">
-            {(true || canShare) && (
+            {canShare && (
                 <a
                     className="px-2 py-1 mb-auto text-white transition-all bg-blue-400 rounded select-none right-8 top-8 justify-self-start hover:bg-blue-300"
                     href={"javascript:;"}
