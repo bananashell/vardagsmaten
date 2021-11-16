@@ -2,7 +2,7 @@ import create from "zustand";
 import { devtools } from "zustand/middleware";
 import { Recipe } from "models/recipie";
 import { weekdays } from "models/weekdays";
-import { allRecipies } from "firebase/__mocks__/clientApp";
+import { allRecipies } from "firebase/clientApp";
 import { randomInt } from "util/random";
 
 export type State = {
