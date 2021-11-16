@@ -59,7 +59,7 @@ export const RecipeList: React.FunctionComponent<Props> = ({
 };
 const List: React.FunctionComponent = ({ children }) => {
     return (
-        <div className="grid grid-cols-1 min-w-full h-screen overflow-hidden auto-rows-fr lg:grid-cols-3">
+        <div className="grid min-w-full min-h-screen grid-cols-1 overflow-hidden auto-rows-fr lg:grid-cols-3 lg:h-screen">
             {children}
         </div>
     );

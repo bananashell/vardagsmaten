@@ -29,13 +29,13 @@ export const Recipe: FunctionComponent<Props> = ({ weekday, foodId }) => {
             {isLoading && "Loading"}
             {isSuccess && recipe && (
                 <>
-                    <div className="flex flex-grow-0 justify-between">
-                        <h3 className="text-l py-0 lowercase md:text-xl lg:text-2xl">
+                    <div className="flex justify-between flex-grow-0">
+                        <h3 className="py-0 lowercase text-l md:text-xl lg:text-2xl">
                             {weekdayTranslations[weekday]}
                         </h3>
                         <button
                             onClick={() => randomize(weekday)}
-                            className="w-5 h-5 transform rotate-0 hover:rotate-180 transition-all"
+                            className="w-5 h-5 transition-all transform rotate-0 hover:rotate-180"
                         >
                             <Image
                                 src={ReloadIcon}
@@ -48,7 +48,7 @@ export const Recipe: FunctionComponent<Props> = ({ weekday, foodId }) => {
                             />
                         </button>
                     </div>
-                    <h2 className="flex-1 m-0 p-0 text-xl font-bold md:text-3xl lg:text-5xl">
+                    <h2 className="flex-1 p-0 m-0 text-xl font-bold break-word md:text-3xl lg:text-5xl">
                         {recipe.title}
                     </h2>
                     <Links links={recipe.recipe_links} />
@@ -70,9 +70,7 @@ const weekdayStyling: { [weekday in typeof weekdays[number]]: string } = {
 const Container: React.FunctionComponent<{ weekday: typeof weekdays[number] }> =
     ({ children, weekday }) => {
         return (
-            <article
-                className={`container p-7 flex flex-col ${weekdayStyling[weekday]}`}
-            >
+            <article className={`p-7 flex flex-col ${weekdayStyling[weekday]}`}>
                 {children}
             </article>
         );
