@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import styled from "styled-components";
 
 export const TagList: FunctionComponent<{ tags: string[] }> = ({ tags }) => {
     if (!tags?.length) {
@@ -7,29 +6,12 @@ export const TagList: FunctionComponent<{ tags: string[] }> = ({ tags }) => {
     }
 
     return (
-        <Tags>
+        <div className="flex justify-end gap-2 mt-2">
             {tags
                 .filter((x) => x)
                 .map((t, i) => (
-                    <Tag key={i}>{t}</Tag>
+                    <i className="px-2 py-1 text-white lowercase bg-gray-400 rounded-md" key={i}>{t}</i>
                 ))}
-        </Tags>
+        </div>
     );
 };
-
-const Tags = styled.div`
-    display: flex;
-    gap: 0.5rem;
-    justify-self: end;
-    align-self: end;
-`;
-
-const Tag = styled.i`
-    display: inline-block;
-    text-transform: lowercase;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-    padding: 5px 7px;
-    font-size: 1vmax;
-`;

@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { useStore } from "store/useStore";
-import styled from "styled-components";
 import { weekdays } from "../models/weekdays";
 import { Links } from "./Links";
 import { TagList } from "./TagList";
@@ -10,8 +9,6 @@ import { imageLoader } from "util/imageLoader";
 
 type Props = {
     weekday: typeof weekdays[number];
-    backgroundColor: string;
-    color: string;
     foodId?: string;
 };
 
@@ -23,25 +20,23 @@ const weekdayTranslations: { [weekday in typeof weekdays[number]]: string } = {
     friday: "Fredag",
 };
 
-export const Recipe: FunctionComponent<Props> = ({
-    weekday,
-    backgroundColor,
-    color,
-    foodId,
-}) => {
+export const Recipe: FunctionComponent<Props> = ({ weekday, foodId }) => {
     const { randomize, foodPerWeekday, isLoading, isSuccess } = useStore();
     const recipe = foodPerWeekday[weekday];
 
     return (
-        <Container backgroundColor={backgroundColor} color={color}>
+        <Container weekday={weekday}>
             {isLoading && "Loading"}
             {isSuccess && recipe && (
                 <>
-                    <DayOfTheWeekContainer>
-                        <DayOfTheWeek>
+                    <div className="flex justify-between flex-grow-0">
+                        <h3 className="py-0 lowercase text-l md:text-xl lg:text-2xl">
                             {weekdayTranslations[weekday]}
-                        </DayOfTheWeek>
-                        <RandomizeButton onClick={() => randomize(weekday)}>
+                        </h3>
+                        <button
+                            onClick={() => randomize(weekday)}
+                            className="w-5 h-5 transition-all transform rotate-0 hover:rotate-180"
+                        >
                             <Image
                                 src={ReloadIcon}
                                 alt={"Reload"}
@@ -49,10 +44,13 @@ export const Recipe: FunctionComponent<Props> = ({
                                 height={30}
                                 objectFit={"fill"}
                                 loader={imageLoader}
+                                className="drop-shadow-md filter"
                             />
-                        </RandomizeButton>
-                    </DayOfTheWeekContainer>
-                    <Title>{recipe.title}</Title>
+                        </button>
+                    </div>
+                    <h2 className="flex-1 p-0 m-0 text-xl font-bold md:text-3xl lg:text-5xl">
+                        {recipe.title}
+                    </h2>
                     <Links links={recipe.recipe_links} />
                     <TagList tags={recipe.tags} />
                 </>
@@ -61,59 +59,21 @@ export const Recipe: FunctionComponent<Props> = ({
     );
 };
 
-const Container = styled.div<{ backgroundColor: string; color: string }>`
-    display: grid;
-    grid-template-areas:
-        "dayOfTheWeek"
-        "title"
-        "links"
-        "tags";
+const weekdayStyling: { [weekday in typeof weekdays[number]]: string } = {
+    monday: "bg-amber-400 text-blue-800",
+    tuesday: "bg-orange-400 text-white",
+    wednesday: "bg-pink-400 text-blue-800",
+    thursday: "bg-purple-400 text-orange-200",
+    friday: "bg-blue-400 text-amber-300",
+};
 
-    grid-template-rows: min-content 1fr min-content min-content;
-    padding: 30px;
-    color: ${({ color }) => color};
-    background-color: ${({ backgroundColor }) => backgroundColor};
-    overflow: hidden;
-`;
-
-const DayOfTheWeekContainer = styled.div`
-    grid-area: dayOfTheWeek;
-    align-self: end;
-    display: grid;
-    grid-template-columns: max-content min-content;
-    justify-content: space-between;
-`;
-
-const DayOfTheWeek = styled.small`
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-    font-size: 2vmax;
-    text-transform: lowercase;
-`;
-
-const Title = styled.h2`
-    margin: 0;
-    padding: 0;
-    grid-area: title;
-    font-size: 4vmax;
-    font-weight: bold;
-    word-wrap: break-word;
-`;
-
-const RandomizeButton = styled.button`
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    transform: rotate(0deg);
-    transition: transform 400ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    color: white;
-    img {
-        filter: drop-shadow(1px 1px 1px black);
-    }
-    &:hover {
-        transform: rotate(180deg);
-    }
-`;
+const Container: React.FunctionComponent<{ weekday: typeof weekdays[number] }> =
+    ({ children, weekday }) => {
+        return (
+            <article
+                className={`container p-7 flex flex-col ${weekdayStyling[weekday]}`}
+            >
+                {children}
+            </article>
+        );
+    };

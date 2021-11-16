@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { FunctionComponent } from "react";
-import styled from "styled-components";
 import GithubImg from "public/GitHub-Mark-32px.png";
 import LinkedInImg from "public/LI-In-Bug.png";
 import { imageLoader } from "util/imageLoader";
@@ -18,22 +17,22 @@ export const Info: FunctionComponent = () => {
     };
 
     return (
-        <Container>
-            <h2>
+        <article className="relative flex flex-col items-end justify-end gap-1 p-8">
+            <h2 className="text-4xl font-bold">
                 <Link href={"./"}>
                     <a>Vardagsmaten</a>
                 </Link>
             </h2>
             {canShare && (
-                <ShareButton href={"javascript:;"} onClick={handleShare}>
+                <a className="absolute px-2 py-1 text-white transition-all bg-blue-400 rounded select-none hover:bg-blue-300 top-8 right-8" href={"javascript:;"} onClick={handleShare}>
                     Dela menyn
-                </ShareButton>
+                </a>
             )}
 
-            <i>Skapat av Joakim Jäderberg </i>
-            <div>
+            <i className="text-sm">Skapat av Joakim Jäderberg </i>
+            <div className="grid items-center grid-flow-col gap-1">
                 <Link href={"https://github.com/bananashell"}>
-                    <a>
+                    <a className="w-5">
                         <Image
                             alt={"Github"}
                             src={GithubImg}
@@ -50,7 +49,7 @@ export const Info: FunctionComponent = () => {
                         "https://www.linkedin.com/in/joakim-j%C3%A4derberg-0b450517/"
                     }
                 >
-                    <a>
+                    <a className="w-5">
                         <Image
                             alt={"LinkedIn"}
                             src={LinkedInImg}
@@ -62,69 +61,6 @@ export const Info: FunctionComponent = () => {
                     </a>
                 </Link>
             </div>
-        </Container>
+        </article>
     );
 };
-
-const Container = styled.div`
-    display: grid;
-    grid-template-areas:
-        "share"
-        "heading"
-        "creator"
-        "links";
-    text-align: right;
-    padding: 30px;
-    grid-template-rows: auto min-content min-content min-content;
-    gap: 1rem;
-
-    h2 {
-        grid-area: heading;
-        align-self: end;
-        font-size: 3vmax;
-        margin: 0;
-    }
-
-    i {
-        grid-area: creator;
-        font-size: 1vmax;
-        align-self: end;
-    }
-
-    div {
-        grid-area: links;
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: min-content min-content;
-        align-self: end;
-        justify-self: end;
-        align-items: center;
-
-        a {
-            display: inline-block;
-            width: 20px;
-        }
-    }
-`;
-
-const ShareButton = styled.a`
-    align-self: start;
-    justify-self: end;
-
-    user-select: none;
-
-    color: ${({ theme }) => theme.colors.white};
-
-    background: ${({ theme }) => theme.colors.blue["400"]};
-    padding: 5px 7px;
-    border-radius: 5px;
-    transition: all 200ms;
-
-    &:hover {
-        background: ${({ theme }) => theme.colors.blue["300"]};
-    }
-    &:active {
-        background: ${({ theme }) => theme.colors.blue["300"]};
-        transform: scale(0.95);
-    }
-`;

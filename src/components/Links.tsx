@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import Link from "next/link";
-import styled from "styled-components";
+
 type Props = {
     links: string[];
 };
@@ -10,7 +10,8 @@ export const Links: FunctionComponent<Props> = ({ links }) => {
     }
 
     return (
-        <LinkList>
+         <ul className="p-0 mt-2 text-right list-none">
+
             {links
                 .filter((x) => x)
                 .map((l, i) => (
@@ -18,17 +19,10 @@ export const Links: FunctionComponent<Props> = ({ links }) => {
                         <Link href={l}>{extractHostname(l)}</Link>
                     </li>
                 ))}
-        </LinkList>
+
+                </ul>
     );
 };
-
-const LinkList = styled.ul`
-    list-style-type: none;
-    padding: 0;
-    justify-self: end;
-    align-self: center;
-    text-align: right;
-`;
 
 const extractHostname = (url: string) => {
     try {
