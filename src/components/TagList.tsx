@@ -6,11 +6,16 @@ export const TagList: FunctionComponent<{ tags: string[] }> = ({ tags }) => {
     }
 
     return (
-        <div className="flex justify-end gap-2 mt-2">
+        <div className="flex gap-2 justify-end mt-2">
             {tags
                 .filter((x) => x)
                 .map((t, i) => (
-                    <i className="px-2 py-1 text-white lowercase bg-gray-400 rounded-md" key={i}>{t}</i>
+                    <i
+                        className="px-2 py-1 text-white bg-gray-400 rounded-md lowercase"
+                        key={i}
+                    >
+                        {t}
+                    </i>
                 ))}
         </div>
     );

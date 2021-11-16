@@ -17,20 +17,24 @@ export const Info: FunctionComponent = () => {
     };
 
     return (
-        <article className="relative flex flex-col items-end justify-end gap-1 p-8">
+        <article className="relative flex flex-col gap-1 items-end justify-end p-8">
             <h2 className="text-4xl font-bold">
                 <Link href={"./"}>
                     <a>Vardagsmaten</a>
                 </Link>
             </h2>
             {canShare && (
-                <a className="absolute px-2 py-1 text-white transition-all bg-blue-400 rounded select-none hover:bg-blue-300 top-8 right-8" href={"javascript:;"} onClick={handleShare}>
+                <a
+                    className="absolute right-8 top-8 px-2 py-1 text-white hover:bg-blue-300 bg-blue-400 rounded select-none transition-all"
+                    href={"javascript:;"}
+                    onClick={handleShare}
+                >
                     Dela menyn
                 </a>
             )}
 
             <i className="text-sm">Skapat av Joakim Jäderberg </i>
-            <div className="grid items-center grid-flow-col gap-1">
+            <div className="grid gap-1 grid-flow-col items-center">
                 <Link href={"https://github.com/bananashell"}>
                     <a className="w-5">
                         <Image

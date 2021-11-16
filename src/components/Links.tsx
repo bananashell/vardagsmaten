@@ -10,8 +10,7 @@ export const Links: FunctionComponent<Props> = ({ links }) => {
     }
 
     return (
-         <ul className="p-0 mt-2 text-right list-none">
-
+        <ul className="mt-2 p-0 text-right list-none">
             {links
                 .filter((x) => x)
                 .map((l, i) => (
@@ -19,8 +18,7 @@ export const Links: FunctionComponent<Props> = ({ links }) => {
                         <Link href={l}>{extractHostname(l)}</Link>
                     </li>
                 ))}
-
-                </ul>
+        </ul>
     );
 };
 
