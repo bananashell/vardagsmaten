@@ -1,7 +1,5 @@
-import "../styles/globals.css";
+import "styles/globals.css";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "styled-components";
-import { theme } from "../styles/theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Script from "next/script";
@@ -12,12 +10,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <GoogleAnalytics />
-            <ThemeProvider theme={theme}>
-                <QueryClientProvider client={queryClient}>
-                    <Component {...pageProps} />
-                    <ReactQueryDevtools />
-                </QueryClientProvider>
-            </ThemeProvider>
+
+            <QueryClientProvider client={queryClient}>
+                <Component {...pageProps} />
+                <ReactQueryDevtools />
+            </QueryClientProvider>
         </>
     );
 }

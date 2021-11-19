@@ -4,5 +4,6 @@
     "trailingComma": "es5",
     "arrowParens": "always",
     "semi": true,
-    "singleQuote": false
+    "singleQuote": false,
+    "plugins": []
 }
