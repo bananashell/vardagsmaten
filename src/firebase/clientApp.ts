@@ -29,29 +29,24 @@ const firebaseConfig: FirebaseOptions = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export async function getRecipies({
-    count,
-}: {
-    count: number;
-}): Promise<Recipe[]> {
-    let recipes: Recipe[] = [];
-
-    // firebase has no current way of fetching multiple random documents at once
-    while (recipes.length < count) {
-        const recipe = await getRandomRecipe({
-            excludeIds: recipes.map((r) => r.id),
-        });
-        recipes = [...recipes, ...recipe];
-    }
-
-    return recipes;
-}
-
 export async function allRecipies(): Promise<Recipe[]> {
     const recipesCol = collection(db, "recipes");
     const recipeList = await getDocs(recipesCol);
 
     return recipeList.docs.map(mapDocumentToRecipe);
+}
+
+export async function getRecipe({ id }: { id: string }) {
+    const recipesCol = collection(db, "recipes");
+    const recipeQuery = query(
+        recipesCol,
+        where(documentId(), "==", id),
+        limit(1)
+    );
+
+    const recipe = await getDocs(recipeQuery);
+
+    return recipe.docs.map(mapDocumentToRecipe)[0];
 }
 
 async function getRandomRecipe({

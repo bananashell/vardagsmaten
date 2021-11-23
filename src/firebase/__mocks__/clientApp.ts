@@ -1,13 +1,5 @@
 import { Recipe } from "../../models/recipie";
 
-export async function getRecipies({
-    count,
-}: {
-    count: number;
-}): Promise<Recipe[]> {
-    return mockData.slice(0, count);
-}
-
 export async function allRecipies(): Promise<Recipe[]> {
     return mockData;
 }

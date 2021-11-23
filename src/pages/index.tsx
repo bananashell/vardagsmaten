@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
-import { RecipeList } from "../components/RecipeList";
+import { RecipeGrid } from "../components/RecipeGrid";
 
 const Home: NextPage = () => {
     const { query, isReady } = useRouter();
 
-    let { id } = query;
-    if (typeof id === "string") {
-        id = [id];
+    let { id: ids } = query;
+    if (typeof ids === "string") {
+        ids = [ids];
     }
 
     return (
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
                     key="description"
                 />
             </Head>
-            <RecipeList foodIds={id} isReady={isReady} />
+            <RecipeGrid foodIds={ids} isReady={isReady} />
         </>
     );
 };

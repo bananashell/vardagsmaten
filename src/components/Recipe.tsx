@@ -52,7 +52,7 @@ export const Recipe: FunctionComponent<Props> = ({ weekday, foodId }) => {
                         {recipe.title}
                     </h2>
                     <Links links={recipe.recipe_links} />
-                    <TagList tags={recipe.tags} />
+                    <TagList tags={recipe.tags} className="mt-2" />
                 </>
             )}
         </Container>

@@ -1,66 +1,51 @@
-import * as React from "react";
-import { useEffect } from "react";
-import { Recipe } from "components/Recipe";
-import { Info } from "components/Info";
-import { useStore } from "store/useStore";
-import { useRouter } from "next/router";
+import { allRecipies } from "firebase/__mocks__/clientApp";
+import { Recipe } from "models/recipie";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { TagList } from "./TagList";
 
-type Props = {
-    foodIds?: string[];
-    isReady: boolean;
-};
-
-export const RecipeList: React.FunctionComponent<Props> = ({
-    foodIds,
-    isReady,
-}) => {
-    const router = useRouter();
-
-    const { initialize, isSuccess, applyFoodToWeekdays, foodPerWeekday } =
-        useStore();
-
+export const RecipeList: React.FunctionComponent = () => {
+    const [allRecipes, setAllRecipes] = useState<Recipe[]>();
     useEffect(() => {
-        initialize({});
-    }, [initialize]);
-
-    useEffect(() => {
-        if (!isReady || !isSuccess) {
-            return;
-        }
-        applyFoodToWeekdays({ foodIds: foodIds });
-    }, [foodIds, isReady, isSuccess, applyFoodToWeekdays]);
-
-    useEffect(() => {
-        if (!Object.values(foodPerWeekday).some((x) => x)) {
-            return;
-        }
-
-        router.push(
-            `/?${Object.values(foodPerWeekday)
-                .map((x) => `id=${x?.id || -1}`)
-                .join("&")}`,
-            undefined,
-            { shallow: true }
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [...Object.values(foodPerWeekday)]);
+        (async () => {
+            setAllRecipes(await allRecipies());
+        })();
+    }, []);
 
     return (
-        <List>
-            <Recipe weekday={"monday"} />
-            <Recipe weekday={"tuesday"} />
-            <Recipe weekday={"wednesday"} />
-            <Recipe weekday={"thursday"} />
-            <Recipe weekday={"friday"} />
-
-            <Info />
-        </List>
-    );
-};
-const List: React.FunctionComponent = ({ children }) => {
-    return (
-        <div className="grid min-w-full min-h-screen grid-cols-1 overflow-hidden auto-rows-fr lg:grid-cols-3 lg:h-screen">
-            {children}
+        <div className="container m-auto">
+            <h1>Alla recept</h1>
+            <ul className={"flex flex-col gap-1"}>
+                {allRecipes?.map((r, i) => (
+                    <li
+                        key={r.id}
+                        className={`flex gap-1 py-1 px-2 items-center ${
+                            i % 2 ? "bg-gray-200" : ""
+                        }`}
+                    >
+                        <Link href={`/admin/details?id=${r.id}`}>
+                            <a className="self-end px-2 py-1 bg-blue-200 rounded justify-self-end hover:bg-blue-100">
+                                Ändra
+                            </a>
+                        </Link>
+                        <div className="flex flex-row items-center justify-between flex-1 gap-4">
+                            <span className="flex-1">{r.title}</span>
+                            <span>
+                                <TagList tags={r.tags} />
+                            </span>
+                            <span
+                                className={`px-2 py-1 ${
+                                    r.recipe_links.length == 0
+                                        ? "bg-red-200"
+                                        : "bg-green-200"
+                                } rounded-3xl`}
+                            >
+                                {r.recipe_links.length} recept
+                            </span>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
