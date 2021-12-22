@@ -24,7 +24,7 @@ export const RecipeList: React.FunctionComponent = () => {
                         }`}
                     >
                         <Link href={`/admin/details?id=${r.id}`}>
-                            <a className="self-end px-2 py-1 bg-blue-200 rounded justify-self-end hover:bg-blue-100">
+                            <a className="self-end btn justify-self-end">
                                 Ändra
                             </a>
                         </Link>

@@ -37,6 +37,7 @@ export async function allRecipies(): Promise<Recipe[]> {
 }
 
 export async function getRecipe({ id }: { id: string }) {
+    console.log("real");
     const recipesCol = collection(db, "recipes");
     const recipeQuery = query(
         recipesCol,

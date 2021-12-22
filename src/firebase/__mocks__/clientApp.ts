@@ -4,6 +4,15 @@ export async function allRecipies(): Promise<Recipe[]> {
     return mockData;
 }
 
+export async function getRecipe({ id }: { id: string }): Promise<Recipe> {
+    console.log("mock");
+    const recipe = mockData.find((x) => x.id === id);
+    if (!recipe) {
+        throw new Error("Recipe not found");
+    }
+    return recipe;
+}
+
 export async function addRecipe({ recipe }: { recipe: Recipe }) {}
 
 const mockData: Recipe[] = [
